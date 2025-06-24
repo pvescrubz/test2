@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Добавить лайки</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      width: 300px;
+      padding: 10px;
+      margin-right: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:disabled {
+      background-color: #ccc;
+    }
+    .progress-container {
+      margin-top: 20px;
+    }
+    .progress-bar {
+      width: 100%;
+      background-color: #f3f3f3;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 20px;
+      background-color: #4CAF50;
+      width: 0%;
+      text-align: center;
+      line-height: 20px;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>Добавить лайки на пост</h1>
+  <form id="likeForm">
+    <input type="text" id="postLink" placeholder="Введите ссылку на пост" required>
+    <button type="submit">Поставить лайки</button>
+  </form>
+  <div class="progress-container">
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill">0%</div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('likeForm').addEventListener('submit', (e) => {
+      e.preventDefault(); // Предотвращаем отправку формы
+
+      const postLink = document.getElementById('postLink').value.trim();
+      if (!postLink) {
+        alert('Пожалуйста, введите ссылку на пост');
+        return;
+      }
+
+      const button = document.querySelector('button');
+      const progressFill = document.getElementById('progressFill');
+
+      button.disabled = true; // Блокируем кнопку
+      progressFill.style.width = '0%';
+      progressFill.textContent = '0%';
+
+      // Создаем XHR объект
+      const xhr = new XMLHttpRequest();
+
+      // Настройка запроса
+      xhr.open('GET', `/add-likes?link=${encodeURIComponent(postLink)}`, true);
+
+      // Обработка входящих данных
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+            alert('Лайки успешно добавлены');
+          } else {
+            alert(`Произошла ошибка: ${xhr.responseText}`);
+          }
+          button.disabled = false; // Разблокируем кнопку
+        }
+      };
+
+      // Обработка потока данных (SSE)
+      xhr.onprogress = () => {
+        const lines = xhr.responseText.split('\n');
+        lines.forEach((line) => {
+          if (line.startsWith('data:')) {
+            const data = JSON.parse(line.slice(5));
+            const { progress } = data;
+
+            // Обновляем прогресс
+            progressFill.style.width = `${progress}%`;
+            progressFill.textContent = `${progress}%`;
+          }
+        });
+      };
+
+      // Отправка запроса
+      xhr.send();
+    });
+  </script>
+</body>
+</html>

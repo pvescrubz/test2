@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Send VK Posts</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Отправка постов ВКонтакте</h1>
+        <p class="low-text">Выберите с каких страниц будем отправлять:</p>
+      <!-- Лоадер -->
+      <div id="loader" class="loader-container">
+        <div class="loader"></div>
+        <p>Загрузка...</p>
+      </div>
+
+      <!-- Форма для отправки постов -->
+      <form id="postForm" enctype="multipart/form-data">
+        <div id="tokensContainer"></div>
+        <!-- Контейнер для чекбоксов -->
+        <div class="form-group">
+          <label for="posts">Укажите текста для постов в формате:</label><br />
+          <textarea
+            id="posts"
+            name="posts"
+            rows="4"
+            placeholder='["Пост1","Пост2"]'
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label for="files">Выберите файлы для прикрепления:</label><br />
+          <input
+            type="file"
+            id="files"
+            name="files"
+            multiple
+            accept=".jpg,.jpeg,.png,.mp4,.avi,.mov"
+          />
+        </div>
+        <button id="submitButton" type="submit">Отправить посты</button>
+      </form>
+
+      <!-- Статус загрузки -->
+      <div id="status"></div>
+
+      <!-- Прогресс-бар -->
+      <div id="progress" class="progress-container">
+        <progress id="progressBar" value="0" max="100"></progress>
+        <span id="progressText">0%</span>
+      </div>
+
+      <!-- Результат отправки -->
+      <div id="result"></div>
+
+      <!-- Ссылки на опубликованные посты -->
+<!-- Ссылки на опубликованные репосты -->
+<div id="postLinksReposts">
+  <h2>Ссылки посты:</h2>
+  <ul id="linksList"></ul>
+  <button id="copyPostLinksButton">Скопировать все ссылки</button>
+</div>
+    </div>
+    <div class="container">
+        <h1>Репосты ВКонтакте</h1>
+        <p class="low-text">Выберите аккаунты для репостов:</p>
+        <!-- Лоадер -->
+        <div id="loader-reposts" class="loader-container">
+          <div class="loader"></div>
+          <p>Загрузка...</p>
+        </div>
+        <!-- Форма для репостов -->
+        <form id="repostForm">
+          <div id="tokensContainerReposts"></div>
+          <!-- Контейнер для чекбоксов -->
+          <div class="form-group">
+            <label for="repostLinks">Укажите ссылки для репостов в формате:</label><br />
+            <textarea
+              id="repostLinks"
+              name="repostLinks"
+              rows="4"
+              placeholder='[
+              { "comment": "Это мой комментарий", "link": "https://vk.com/wall-227983663_244" },
+              { "comment": "Еще один комментарий", "link": "https://vk.com/wall1024636450_78" }
+            ]'
+            ></textarea>
+
+          
+            
+          </div>
+          <button id="submitRepostButton" type="submit">Создать репосты</button>
+        </form>
+        <!-- Статус загрузки -->
+        <div id="status-reposts"></div>
+        <!-- Прогресс-бар -->
+        <div id="progress-reposts" class="progress-container">
+          <progress id="progressBarReposts" value="0" max="100"></progress>
+          <span id="progressTextReposts">0%</span>
+        </div>
+        <!-- Результат отправки -->
+        <div id="result-reposts"></div>
+        <!-- Ссылки на опубликованные репосты -->
+        <div id="postLinksReposts">
+          <h2>Ссылки на репосты:</h2>
+          <ul id="linksListReposts"></ul>
+          <button id="copyRepostLinksButton">Скопировать все ссылки</button>
+        </div>
+      </div>
+
+      <script src="/js/vlad_post.js"></script>
+      <script src="/js/vlad_repost.js"></script>
+      <script src="/js/copy_link.js"></script>
+
+  </body>
+</html>
+
+
+
